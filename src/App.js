@@ -1,10 +1,15 @@
 import React from 'react';
+import Header from './containers/header-container/header.container'
+import AddNote from './containers/add-notes/add-notes.container'
 
 import './App.scss';
 
 function App() {
   return (
-    <h1>Welcome to Google Keep App</h1>
+    <div className="app">
+      <Header></Header>
+      <AddNote></AddNote>
+    </div>
   );
 }
 
