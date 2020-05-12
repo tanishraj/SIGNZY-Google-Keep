@@ -4,7 +4,7 @@ import { db } from "../../utils/firebase";
 
 import "./notes-list.style.scss";
 
-function AllNotes({ selected }) {
+function NotesList({ selected }) {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -27,4 +27,4 @@ function AllNotes({ selected }) {
   );
 }
 
-export default AllNotes;
+export default NotesList;
