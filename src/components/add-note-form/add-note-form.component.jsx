@@ -1,54 +1,73 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { db } from "../../utils/firebase";
 
 import "./add-note-form.style.scss";
 
-class AddNote extends Component {
-  constructor() {
-    super();
-    this.showTitleField = this.showTitleField.bind(this);
-    this.hideTitleField = this.hideTitleField.bind(this);
+function AddNoteForm() {
+  const [titleFieldVisible, setTitleFieldVisible] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
-    this.state = {
-      titleFieldVisible: false,
-    };
-  }
+  const showTitleField = () => {
+    setTitleFieldVisible(true);
+  };
 
-  showTitleField() {
-    this.setState({ titleFieldVisible: true });
-  }
+  const hideTitleField = () => {
+    setTitleFieldVisible(false);
+  };
 
-  hideTitleField() {
-    console.log("This is being called");
-    this.setState({ titleFieldVisible: false });
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  render() {
-    return (
-      <div>
-        <div className="create-form">
-          {this.state.titleFieldVisible && (
-            <div className="backdrop" onClick={this.hideTitleField} />
+    if (title || content) {
+      db.createNote(title.trim(), content.trim()).then(
+        () => {
+          setTitle("");
+          setContent("");
+          setTitleFieldVisible("false");
+        },
+        (e) => console.log(e)
+      );
+
+      setTitle("");
+      setContent("");
+      setTitleFieldVisible("false");
+    }
+  };
+
+  return (
+    <div>
+      <div className="create-form">
+        {titleFieldVisible && (
+          <div className="backdrop" onClick={hideTitleField} />
+        )}
+
+        <form onSubmit={handleSubmit} className="create-note">
+          {titleFieldVisible && (
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onFocus={showTitleField}
+              name="title"
+              placeholder="Title"
+            />
           )}
 
-          <form className="create-note">
-            {this.state.titleFieldVisible && (
-              <input
-                onFocus={this.showTitleField}
-                name="title"
-                placeholder="Title"
-              />
-            )}
-
-            <textarea
-              onFocus={this.showTitleField}
-              name="content"
-              placeholder="Take a note..."
-            />
-          </form>
-        </div>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            onFocus={showTitleField}
+            name="content"
+            placeholder="Take a note..."
+          />
+          <button type="Submit">
+            <span>&#43;</span>
+          </button>
+        </form>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default AddNote;
+export default AddNoteForm;
