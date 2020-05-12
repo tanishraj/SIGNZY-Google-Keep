@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Note from "../note/note.component";
 import { db } from "../../utils/firebase";
 
+import "./notes-list.style.scss";
+
 function AllNotes({ selected }) {
   const [notes, setNotes] = useState([]);
 

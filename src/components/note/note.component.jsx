@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import EditIcon from "../edit-icon/edit-icon.component";
 
@@ -21,7 +21,7 @@ function Note({ note, index, selected }) {
       {hasNotes ? (
         <div>
           {note.title && <h1>{note.title}</h1>}
-          {note.content && <pre>{note.content}</pre>}
+          {note.content && <p>{note.content}</p>}
         </div>
       ) : (
         <div className="empty">Empty Note</div>
